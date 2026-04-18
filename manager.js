@@ -172,3 +172,15 @@ function toggleTheme() {
     // Đổi chữ trên nút để gợi ý Mode sáng tối Mode
     themeBtn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; 
 }
+// Hàm vẽ giao diện thanh trượt theo bản vẽ
+function updateSliderVisual(slider, spanId) {
+    const val = slider.value;
+    document.getElementById(spanId).innerText = val + '%';
+    
+    // Tạo 3 lớp nền đè lên nhau: Lớp màu tô đầy -> Lớp sọc gạch chéo -> Lớp nền trơn
+    const fillGradient = `linear-gradient(to right, var(--track-fill) ${val}%, transparent ${val}%)`;
+    const hashGradient = `repeating-linear-gradient(-45deg, transparent, transparent 4px, var(--track-hash) 4px, var(--track-hash) 6px)`;
+    const bgBase = `var(--track-bg)`;
+    
+    slider.style.background = `${fillGradient}, ${hashGradient}, ${bgBase}`;
+}
