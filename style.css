@@ -2,6 +2,14 @@
 * {
     font-family: 'Poppins', sans-serif;
 }
+:root {
+    --track-fill: #4C9DB0; /* Màu tô đầy (Xanh Moonstone) */
+    --track-hash: #ccc;    /* Màu vạch gạch chéo */
+    --track-bg: #fff;      /* Màu nền rãnh */
+    --thumb-color: #fff;   /* Màu cục kéo */
+    --thumb-border: #333;  /* Màu viền cục kéo */
+    --track-border: #333;  /* Màu viền bao quanh thanh trượt */
+}
 
 body { 
     font-family: Arial, sans-serif; 
@@ -79,21 +87,35 @@ td:nth-child(4), td:nth-child(5) { text-align: center; }
    LÀM ĐẸP THANH SLIDER & CHECKBOX (KHUNG CƠ BẢN & MÀU SÁNG)
    ========================================= */
 
-/* 1. Thanh trượt Slider */
+/* Custom Slider giống bản vẽ tay */
 input[type="range"] {
-    -webkit-appearance: none; appearance: none;
-    width: 70%; height: 8px; background: #e9ecef;
-    border-radius: 5px; outline: none; margin-right: 10px;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 18px; /* Độ dày rãnh */
+    border-radius: 20px;
+    border: 2px solid var(--track-border); /* Viền bao quanh rãnh */
+    outline: none;
+    cursor: pointer;
+    background: 
+        linear-gradient(to right, var(--track-fill) var(--val, 0%), transparent var(--val, 0%)),
+        repeating-linear-gradient(-45deg, transparent, transparent 4px, var(--track-hash) 4px, var(--track-hash) 6px),
+        var(--track-bg);
 }
-/* Cục nắm kéo Slider (Màu xanh Moonstone) */
+
 input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none; appearance: none;
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #4C9DB0; cursor: pointer;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: 0.2s;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 26px; /* Cục kéo to tròn */
+    height: 26px;
+    border-radius: 50%;
+    background: var(--thumb-color);
+    border: 3px solid var(--thumb-border);
+    cursor: pointer;
+    transition: transform 0.1s;
 }
-input[type="range"]::-webkit-slider-thumb:hover { 
-    background: #3b7b8a; 
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.15); /* Rê chuột vào cục kéo bự lên chút */
 }
 
 /* 2. Nút Checkbox hoàn thành */

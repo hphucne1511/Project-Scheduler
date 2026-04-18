@@ -105,9 +105,16 @@ function renderBoards() {
                         placeholder="Nhập tên công việc...">
                     </td>
                     <td>
-                        <input type="range" min="0" max="100" value="${task.progress}" 
-                        onchange="updateTask(${dayIndex}, ${taskIndex}, 'progress', this.value)">
-                        ${task.progress}%
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            
+                            <input type="range" min="0" max="100" value="${task.progress}" 
+                            id="slider-${dayIndex}-${taskIndex}"
+                            style="flex-grow: 1; --val: ${task.progress}%;"
+                            oninput="this.style.setProperty('--val', this.value + '%'); document.getElementById('span-${dayIndex}-${taskIndex}').innerText = this.value + '%';" 
+                            onchange="updateTask(${dayIndex}, ${taskIndex}, 'progress', this.value)">
+                            
+                            <span id="span-${dayIndex}-${taskIndex}" style="width: 40px; font-weight: bold;">${task.progress}%</span>
+                        </div>
                     </td>
                     <td style="text-align:center;">
                         <input type="checkbox" ${task.isDone ? 'checked' : ''} 
@@ -171,16 +178,4 @@ function toggleTheme() {
     
     // Đổi chữ trên nút để gợi ý Mode sáng tối Mode
     themeBtn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; 
-}
-// Hàm vẽ giao diện thanh trượt theo bản vẽ
-function updateSliderVisual(slider, spanId) {
-    const val = slider.value;
-    document.getElementById(spanId).innerText = val + '%';
-    
-    // Tạo 3 lớp nền đè lên nhau: Lớp màu tô đầy -> Lớp sọc gạch chéo -> Lớp nền trơn
-    const fillGradient = `linear-gradient(to right, var(--track-fill) ${val}%, transparent ${val}%)`;
-    const hashGradient = `repeating-linear-gradient(-45deg, transparent, transparent 4px, var(--track-hash) 4px, var(--track-hash) 6px)`;
-    const bgBase = `var(--track-bg)`;
-    
-    slider.style.background = `${fillGradient}, ${hashGradient}, ${bgBase}`;
 }

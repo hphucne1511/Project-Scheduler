@@ -90,17 +90,19 @@ body.dark-theme input[type="checkbox"] {
    LÀM ĐẸP THANH SLIDER & CHECKBOX (GHI ĐÈ MÀU TỐI)
    ========================================= */
 
-/* Rãnh trượt Slider đổi sang xám tối */
-body.dark-theme input[type="range"] {
-    background: #334155; 
+/* Ghi đè màu Slider cho Dark Mode */
+body.dark-theme {
+    --track-fill: #CF9D7B; /* Màu đồng Antique Brass khi tô đầy */
+    --track-hash: #334155; /* Màu sọc gạch chéo tối */
+    --track-bg: #162127;   /* Màu nền rãnh tối */
+    --thumb-color: #162127; /* Cục kéo màu tối */
+    --thumb-border: #CF9D7B; /* Viền cục kéo màu đồng */
+    --track-border: #724B39; /* Viền bao quanh thanh trượt màu Coffee */
 }
 
-/* Cục nắm kéo Slider đổi sang màu đồng Antique Brass */
-body.dark-theme input[type="range"]::-webkit-slider-thumb {
-    background: #CF9D7B; 
-}
-body.dark-theme input[type="range"]::-webkit-slider-thumb:hover {
-    background: #b58563; 
+/* Ẩn cái CSS cũ của bạn đi, chỉ cần ghi đè màu text cho % */
+body.dark-theme span[id^="span-"] {
+    color: #CF9D7B;
 }
 
 /* Ô Checkbox chưa tick có nền trùng với nền hộp */
