@@ -1,0 +1,129 @@
+/* dark.css - CHỈ CHỨA MÀU TỐI ẤM ÁP (GHI ĐÈ) */
+
+/* Toàn bộ nền và chữ chính */
+body.dark-theme { 
+    /* Chinese Black `#0C1519` làm nền trang */
+    background: #0C1519; 
+    color: #e2e8f0; /* Chữ xám sáng mặc định */
+}
+
+/* Thanh Top Bar kính mờ tông tối */
+body.dark-theme .top-bar {
+    /* Dark Jungle Green `#162127` làm nềnTop Bar, mờ */
+    background-color: rgba(22, 33, 39, 0.8);
+    border-bottom: 1px solid #334155;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+/* Các tiêu đề Antique Brass `#CF9D7B` điểm nhấn đồng */
+body.dark-theme .top-bar h1, 
+body.dark-theme .day-container h2 {
+    color: #CF9D7B; 
+}
+
+/* Hộp chứa bảng công việc */
+body.dark-theme .day-container { 
+    /* Dark Jungle Green nhạt `#162127` làm nền hộp, phân biệt nhẹ với nền trang */
+    background-color: #162127; 
+    border: 1px solid #334155;
+}
+
+/* Các nút Thêm Ngày, Thêm Công Việc điểm nhấn tông đồng ấm */
+body.dark-theme .btn-add-day,
+body.dark-theme .btn-add-task {
+    /* Coffee `#724B39` làm màu điểm nhấn cho nút bấm chính */
+    background-color: #724B39;
+    color: white;
+}
+body.dark-theme .btn-add-day:hover,
+body.dark-theme .btn-add-task:hover {
+    background-color: #5d3d2e; /* Đậm hơn khi di chuột */
+}
+
+/* Nút đổi giao diện trong tối có thể mờ đi một chút */
+body.dark-theme .btn-toggle-theme {
+    background-color: #2c3e50;
+}
+
+/* Nút Xóa nguy hiểm vẫn màu đỏ nguy hiểm dc3545 */
+body.dark-theme .btn-delete {
+    background-color: #dc3545;
+}
+
+/* Bảng công việc tối */
+body.dark-theme table { 
+    /* Chinese Black `#0C1519` làm nền table header header header header */
+    background-color: #0C1519; 
+}
+
+/* Viền xám mờ đồng bộ điểm nhấn ấm điểm nhấn ấm Jet tối #334155 */
+body.dark-theme th, 
+body.dark-theme td { 
+    border-color: #334155; 
+}
+
+/* Tiêu đề bảng điểm nhấn đồng ấm `#724B39` ghi đè xanh dương ban đầu #4C9DB0 green old ban đầu #4C9DB0 green old ban đầu #4C9DB0 green old */
+body.dark-theme th { 
+    background-color: #724B39; 
+    color: white;
+}
+
+/* Các ô nhập chữ tối */
+body.dark-theme input[type="text"] { 
+    /* Dark Jungle Green `#162127` làm nền ô nhập */
+    background-color: #162127; 
+    color: #e2e8f0; 
+    /* Coffee `#724B39` làm viền điểm nhấn âm điểm nhấn âm điểm nhấn âm */
+    border-color: #724B39; 
+}
+
+body.dark-theme input[type="text"]::placeholder {
+    color: #64748b;
+}
+
+/* Ô Checkbox mặc định, trong tối viền có thể ấm hơn */
+body.dark-theme input[type="checkbox"] {
+    /* Đổi viền sang tông đồng ấm viền viền viền điểm nhấn âm #724B39 border #724B39 points #724B39 point */
+    border-color: #724B39;
+}
+/* =========================================
+   LÀM ĐẸP THANH SLIDER & CHECKBOX (GHI ĐÈ MÀU TỐI)
+   ========================================= */
+
+/* Rãnh trượt Slider đổi sang xám tối */
+body.dark-theme input[type="range"] {
+    background: #334155; 
+}
+
+/* Cục nắm kéo Slider đổi sang màu đồng Antique Brass */
+body.dark-theme input[type="range"]::-webkit-slider-thumb {
+    background: #CF9D7B; 
+}
+body.dark-theme input[type="range"]::-webkit-slider-thumb:hover {
+    background: #b58563; 
+}
+
+/* Ô Checkbox chưa tick có nền trùng với nền hộp */
+body.dark-theme input[type="checkbox"] {
+    background-color: #162127; 
+    border-color: #724B39; /* Viền màu Coffee */
+}
+
+/* Ô Checkbox đã tick biến thành màu Coffee ấm áp */
+body.dark-theme input[type="checkbox"]:checked {
+    background-color: #724B39; 
+    border-color: #724B39;
+}
+
+body.dark-theme .date-picker {
+    background-color: #162127; /* Nền Dark Jungle Green */
+    color: #e2e8f0; /* Chữ xám sáng */
+    border-color: #724B39; /* Viền Coffee điểm nhấn */
+    color-scheme: dark;
+}
+
+/* Đổi màu cái icon cuốn lịch mặc định thành màu sáng để dễ nhìn trong Dark Mode */
+body.dark-theme ::-webkit-calendar-picker-indicator {
+    filter: invert(1) opacity(0.8);
+    cursor: pointer;
+}

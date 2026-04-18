@@ -1,0 +1,124 @@
+/* style.css - CHỨA BỐ CỤC VÀ MÀU SÁNG MẶC ĐỊNH */
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body { 
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0 20px 20px 20px; 
+    /* Nền gradient sáng ban đầu */
+    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+    color: #333; /* Chữ màu tối cho nền sáng */
+    background-attachment: fixed; 
+    min-height: 100vh;
+}
+
+/* Thanh Top Bar mờ, ghim trên cùng */
+.top-bar {
+    position: sticky; top: 0; 
+    background-color: rgba(255, 255, 255, 0.7); /* Kính mờ trắng */
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    padding: 15px 20px; margin: 0 -20px 20px -20px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); z-index: 1000; 
+    display: flex; justify-content: space-between; align-items: center;
+}
+
+.top-bar h1 { margin: 0; color: #2c3e50; font-size: 24px; }
+
+/* Gom 2 nút bấm trên Top Bar nằm ngang hàng */
+.top-actions { display: flex; gap: 15px; }
+
+/* Nút Đổi giao diện */
+.btn-toggle-theme {
+    /* Dùng màu xám đen để nhìn "ngầu" và phù hợp để đổi màu */
+    background-color: #334155; color: white;
+    padding: 10px 15px; border: none; border-radius: 6px; 
+    cursor: pointer; font-weight: bold; transition: 0.3s;
+}
+.btn-toggle-theme:hover { background-color: #475569; }
+
+/* Nút Thêm Ngày ( Header) - dùng màu xanh dương điểm nhấn */
+.btn-add-day { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.btn-add-day:hover { background-color: #0069d9; }
+
+/* Nút Thêm Công Việc (Trong hộp) - dùng màu xanh lá ban đầu */
+.btn-add-task { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.btn-add-task:hover { background-color: #218838; }
+
+/* Nút Xóa nguy hiểm */
+.btn-delete { background-color: #dc3545; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.btn-delete:hover { background-color: #c82333; }
+
+/* Hộp chứa bảng công việc - nền Vanilla ấm */
+.day-container { 
+    background-color: #FFEBAF; padding: 20px; border-radius: 12px; margin-top: 20px; 
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+}
+.day-container h2 { color: #333; margin-top: 0; }
+.day-header-actions { display: flex; gap: 10px; margin-bottom: 15px; }
+
+/* Bảng */
+table { width: 100%; border-collapse: collapse; margin-top: 15px; background-color: white; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+/* Tiêu đề bảng dùng màu xanh dương Moonstone cũ */
+th { background-color: #4C9DB0; color: white; font-size: 16px; }
+
+/* Các ô nhập và checkbox mặc định */
+input[type="text"] { width: 90%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: white; color: black; }
+input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+
+/* Các ô Thao tác và Hoàn thành căn giữa */
+td:nth-child(4), td:nth-child(5) { text-align: center; }
+
+/* Tầm nhìn cho nút Xóa container header */
+.day-header-actions .btn-delete {
+    padding: 10px 15px;
+}
+/* =========================================
+   LÀM ĐẸP THANH SLIDER & CHECKBOX (KHUNG CƠ BẢN & MÀU SÁNG)
+   ========================================= */
+
+/* 1. Thanh trượt Slider */
+input[type="range"] {
+    -webkit-appearance: none; appearance: none;
+    width: 70%; height: 8px; background: #e9ecef;
+    border-radius: 5px; outline: none; margin-right: 10px;
+}
+/* Cục nắm kéo Slider (Màu xanh Moonstone) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #4C9DB0; cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); transition: 0.2s;
+}
+input[type="range"]::-webkit-slider-thumb:hover { 
+    background: #3b7b8a; 
+}
+
+/* 2. Nút Checkbox hoàn thành */
+input[type="checkbox"] {
+    appearance: none; -webkit-appearance: none;
+    width: 24px; height: 24px; background-color: white;
+    border: 2px solid #ccc; border-radius: 6px;
+    cursor: pointer; position: relative; transition: all 0.3s ease;
+}
+/* Khi được tick vào (Màu xanh lá) */
+input[type="checkbox"]:checked {
+    background-color: #28a745; border-color: #28a745;
+}
+/* Vẽ dấu tick ✔ màu trắng */
+input[type="checkbox"]:checked::after {
+    content: '✔'; position: absolute;
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    color: white; font-size: 16px; font-weight: bold;
+}
+.date-picker {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+}
