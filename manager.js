@@ -1,5 +1,16 @@
 let schedulerData = JSON.parse(localStorage.getItem('schedulerData')) || [];
 
+function getDayOfWeekVN(dateString) {
+    const parts = dateString.split('/');
+    // Tạo object Ngày tháng (Lưu ý: Javascript đếm tháng từ 0 nên phải lấy tháng trừ 1)
+    const dateObj = new Date(parts[2], parts[1] - 1, parts[0]);
+    
+    // Mảng chứa tên các Thứ (Chủ nhật có index là 0)
+    const days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
+    
+    return days[dateObj.getDay()];
+}
+
 function saveData() {
     localStorage.setItem('schedulerData', JSON.stringify(schedulerData));
 }
@@ -126,11 +137,14 @@ function renderBoards() {
                 </tr>
             `;
         });
+        
+        const dayName = getDayOfWeekVN(day.date);
 
         // [MỚI] Cập nhật lại phần Đầu Bảng: Thêm nút Xóa Ngày và Thêm Cột "Thao tác"
         container.innerHTML += `
             <div class="day-container">
-                <h2>Ngày: ${day.date}</h2>
+
+                <h2>${dayName}, ${day.date}</h2>
                 
                 <div class="day-header-actions">
                     <button class="btn-add-task" onclick="addTask(${dayIndex})">+ Thêm Công Việc</button>
