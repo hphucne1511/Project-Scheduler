@@ -5,27 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Scheduler</title>
     <link rel="icon" type="image/png" href="favicon.png">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="dark.css"> 
+    <link rel="stylesheet" href="ocean.css"> 
+    <link rel="stylesheet" href="forest.css">
 </head>
 <body>
-
-    <div class="top-bar">
-        <h1>Project & Task Scheduler</h1>
-        
-        <div class="top-actions">
-            <button class="btn-toggle-theme" id="theme-btn" onclick="toggleTheme()">🌙 Dark Mode</button>
-            <input type="date" id="date-picker" class="date-picker">
-            <button class="btn-add-day" onclick="addNewDay()">+ Thêm Bảng Ngày Mới</button>
-        </div>
+    <ul class="ocean-bubbles">
+        <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+    </ul>
+    
+    <div id="sidebar" class="sidebar">
+        <ul class="nav-links">
+            <li onclick="switchView('job')" id="nav-job" class="active">📝 Todo</li>
+            <li onclick="switchView('book')" id="nav-book">📚 Book</li>
+        </ul>
     </div>
 
-    <div id="boards-area"></div>
+    <div id="main-wrapper">
+        <div class="top-bar">
+            <div style="display: flex; align-items: center; gap: 15px;">
+                <button class="btn-menu" onclick="toggleSidebar()">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </button>
+                <h1 id="page-title">To do list</h1>
+            </div>
+            
+            <div class="top-actions">
+                <select class="btn-toggle-theme" id="theme-select" onchange="changeTheme(this.value)">
+                    <option value="light">☀️ Light</option>
+                    <option value="dark">🌙 Dark</option>
+                    <option value="ocean">🌊 Ocean</option>
+                    <option value="forest">🌲 Forest</option>
+                </select>
+                
+                <div id="job-actions" style="display: flex; gap: 10px;">
+                    <button class="btn-add-day" onclick="addTask()">+ Thêm Công Việc</button>
+                </div>
+                
+                <div id="book-actions" style="display: none; gap: 10px;">
+                    <button class="btn-add-book" onclick="addBook()">+ Thêm Sách Đang Đọc</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="boards-area"></div>
+        <div id="books-area" style="display: none;"></div> </div>
 
     <script src="manager.js"></script>
 </body>

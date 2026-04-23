@@ -1,131 +1,97 @@
-/* dark.css - CHỈ CHỨA MÀU TỐI ẤM ÁP (GHI ĐÈ) */
-
-/* Toàn bộ nền và chữ chính */
-body.dark-theme { 
-    /* Chinese Black `#0C1519` làm nền trang */
-    background: #0C1519; 
-    color: #e2e8f0; /* Chữ xám sáng mặc định */
-}
-
-/* Thanh Top Bar kính mờ tông tối */
-body.dark-theme .top-bar {
-    /* Dark Jungle Green `#162127` làm nềnTop Bar, mờ */
-    background-color: rgba(22, 33, 39, 0.8);
-    border-bottom: 1px solid #334155;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-/* Các tiêu đề Antique Brass `#CF9D7B` điểm nhấn đồng */
-body.dark-theme .top-bar h1, 
-body.dark-theme .day-container h2 {
-    color: #CF9D7B; 
-}
-
-/* Hộp chứa bảng công việc */
-body.dark-theme .day-container { 
-    /* Dark Jungle Green nhạt `#162127` làm nền hộp, phân biệt nhẹ với nền trang */
-    background-color: #162127; 
-    border: 1px solid #334155;
-}
-
-/* Các nút Thêm Ngày, Thêm Công Việc điểm nhấn tông đồng ấm */
-body.dark-theme .btn-add-day,
-body.dark-theme .btn-add-task {
-    /* Coffee `#724B39` làm màu điểm nhấn cho nút bấm chính */
-    background-color: #724B39;
-    color: white;
-}
-body.dark-theme .btn-add-day:hover,
-body.dark-theme .btn-add-task:hover {
-    background-color: #5d3d2e; /* Đậm hơn khi di chuột */
-}
-
-/* Nút đổi giao diện trong tối có thể mờ đi một chút */
-body.dark-theme .btn-toggle-theme {
-    background-color: #2c3e50;
-}
-
-/* Nút Xóa nguy hiểm vẫn màu đỏ nguy hiểm dc3545 */
-body.dark-theme .btn-delete {
-    background-color: #dc3545;
-}
-
-/* Bảng công việc tối */
-body.dark-theme table { 
-    /* Chinese Black `#0C1519` làm nền table header header header header */
-    background-color: #0C1519; 
-}
-
-/* Viền xám mờ đồng bộ điểm nhấn ấm điểm nhấn ấm Jet tối #334155 */
-body.dark-theme th, 
-body.dark-theme td { 
-    border-color: #334155; 
-}
-
-/* Tiêu đề bảng điểm nhấn đồng ấm `#724B39` ghi đè xanh dương ban đầu #4C9DB0 green old ban đầu #4C9DB0 green old ban đầu #4C9DB0 green old */
-body.dark-theme th { 
-    background-color: #724B39; 
-    color: white;
-}
-
-/* Các ô nhập chữ tối */
-body.dark-theme input[type="text"] { 
-    /* Dark Jungle Green `#162127` làm nền ô nhập */
-    background-color: #162127; 
-    color: #e2e8f0; 
-    /* Coffee `#724B39` làm viền điểm nhấn âm điểm nhấn âm điểm nhấn âm */
-    border-color: #724B39; 
-}
-
-body.dark-theme input[type="text"]::placeholder {
-    color: #64748b;
-}
-
-/* Ô Checkbox mặc định, trong tối viền có thể ấm hơn */
-body.dark-theme input[type="checkbox"] {
-    /* Đổi viền sang tông đồng ấm viền viền viền điểm nhấn âm #724B39 border #724B39 points #724B39 point */
-    border-color: #724B39;
-}
 /* =========================================
-   LÀM ĐẸP THANH SLIDER & CHECKBOX (GHI ĐÈ MÀU TỐI)
+   DARK THEME: MODERN SLATE & BLUE
    ========================================= */
 
-/* Ghi đè màu Slider cho Dark Mode */
-body.dark-theme {
-    --track-fill: #CF9D7B; /* Màu đồng Antique Brass khi tô đầy */
-    --track-hash: #334155; /* Màu sọc gạch chéo tối */
-    --track-bg: #162127;   /* Màu nền rãnh tối */
-    --thumb-color: #162127; /* Cục kéo màu tối */
-    --thumb-border: #CF9D7B; /* Viền cục kéo màu đồng */
-    --track-border: #724B39; /* Viền bao quanh thanh trượt màu Coffee */
+/* Nền tảng Dark Mode */
+body[data-theme='dark'] { background: #0f172a; color: #f1f5f9; }
+
+/* Kính mờ Dark Mode */
+body[data-theme='dark'] .top-bar { background-color: rgba(15, 23, 42, 0.75); border-bottom: 1px solid rgba(255,255,255,0.05); }
+body[data-theme='dark'] .sidebar { background-color: rgba(30, 41, 59, 0.85); border-right: 1px solid rgba(255,255,255,0.05); }
+
+/* Chữ và Icon */
+body[data-theme='dark'] .top-bar h1, body[data-theme='dark'] .day-container h2, body[data-theme='dark'] .book-container h3 { color: #f8fafc; }
+body[data-theme='dark'] .btn-menu .bar { background-color: #f1f5f9; }
+
+/* Menu Sidebar */
+body[data-theme='dark'] .nav-links li { color: #cbd5e1; }
+body[data-theme='dark'] .nav-links li:hover { background-color: rgba(255,255,255,0.05); color: white; }
+/* Menu Sidebar Active (Xanh Dương) */
+body[data-theme='dark'] .nav-links li.active { background-color: #2563EB; color: white; }
+
+/* Nút bấm Dark Mode */
+body[data-theme='dark'] .btn-toggle-theme { background-color: #1e293b; color: #e2e8f0; border-color: #334155; }
+body[data-theme='dark'] .btn-toggle-theme:hover { background-color: #334155; }
+
+/* Nút thêm công việc (Xanh Dương) */
+body[data-theme='dark'] .btn-add-task { background-color: rgba(37, 99, 235, 0.1); color: #60A5FA; border-color: transparent; }
+body[data-theme='dark'] .btn-add-task:hover { background-color: rgba(37, 99, 235, 0.2); }
+
+body[data-theme='dark'] .btn-delete { background-color: rgba(220, 38, 38, 0.1); color: #f87171; }
+body[data-theme='dark'] .btn-delete:hover { background-color: rgba(220, 38, 38, 0.2); }
+
+/* Bảng Container (Cards) */
+body[data-theme='dark'] .day-container, body[data-theme='dark'] .book-container { background-color: #1e293b; border-color: #334155; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+body[data-theme='dark'] th { background-color: #0f172a; color: #94a3b8; }
+body[data-theme='dark'] th, body[data-theme='dark'] td { border-bottom: 1px solid #334155; }
+body[data-theme='dark'] .day-header-actions { border-bottom-color: #334155; }
+
+/* Ô Nhập liệu (Inputs) */
+body[data-theme='dark'] input[type="text"], body[data-theme='dark'] input[type="number"], body[data-theme='dark'] .date-picker { 
+    background: #0f172a; color: #f1f5f9; border-color: transparent;
+}
+/* Border Input focus (Xanh Dương) */
+body[data-theme='dark'] input[type="text"]:focus, body[data-theme='dark'] input[type="number"]:focus {
+    background: #0f172a; border-color: #3B82F6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+body[data-theme='dark'] .date-picker { color-scheme: dark; border-color: #334155; }
+
+/* Nhóm nhập số trang Sách */
+body[data-theme='dark'] .page-input-group { background: #0f172a; border-color: #334155; }
+body[data-theme='dark'] .btn-lock-icon { color: #64748b; }
+body[data-theme='dark'] .btn-lock-icon:hover { background: #334155; }
+body[data-theme='dark'] .btn-lock-icon.locked { background: #334155; color: #fbbf24; }
+
+/* Các icon thao tác (Xanh Dương) */
+body[data-theme='dark'] .btn-action-delete:hover { background: rgba(220, 38, 38, 0.2); color: #f87171; opacity: 1; }
+
+/* Checkbox */
+body[data-theme='dark'] input[type="checkbox"] { background-color: #0f172a; border-color: #475569; }
+body[data-theme='dark'] input[type="checkbox"]:checked { background-color: #10b981; border-color: #10b981; }
+
+/* =========================================
+   SLIDER DARK MODE NÂNG CẤP - HIỆU ỨNG GLOW
+   ========================================= */
+
+body[data-theme='dark'] input[type="range"] { 
+    background-color: #334155; 
+    box-shadow: inset 0 1px 4px rgba(0,0,0,0.6); 
 }
 
-/* Ẩn cái CSS cũ của bạn đi, chỉ cần ghi đè màu text cho % */
-body.dark-theme span[id^="span-"] {
-    color: #CF9D7B;
+body[data-theme='dark'] input[type="range"]::-webkit-slider-thumb { background: #0f172a; }
+
+/* --- Công việc (Xanh Dương Glow) --- */
+body[data-theme='dark'] .day-container:not(.book-container) input[type="range"] {
+    background-image: linear-gradient(90deg, #60A5FA, #3B82F6);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5), 0 0 10px rgba(59, 130, 246, 0.25);
+}
+body[data-theme='dark'] .day-container:not(.book-container) input[type="range"]::-webkit-slider-thumb { border-color: #60A5FA; }
+body[data-theme='dark'] .day-container:not(.book-container) input[type="range"]::-webkit-slider-thumb:hover { 
+    box-shadow: 0 0 12px rgba(96, 165, 250, 0.7), 0 0 0 5px rgba(59, 130, 246, 0.2); 
+}
+body[data-theme='dark'] .day-container:not(.book-container) .percentage-text { 
+    background: rgba(37, 99, 235, 0.15); color: #93C5FD; border: 1px solid rgba(59, 130, 246, 0.3); 
 }
 
-/* Ô Checkbox chưa tick có nền trùng với nền hộp */
-body.dark-theme input[type="checkbox"] {
-    background-color: #162127; 
-    border-color: #724B39; /* Viền màu Coffee */
+/* --- Sách (Xanh Ngọc Glow) --- */
+body[data-theme='dark'] .book-container input[type="range"] {
+    background-image: linear-gradient(90deg, #6EE7B7, #10B981);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.5), 0 0 10px rgba(16, 185, 129, 0.25);
 }
-
-/* Ô Checkbox đã tick biến thành màu Coffee ấm áp */
-body.dark-theme input[type="checkbox"]:checked {
-    background-color: #724B39; 
-    border-color: #724B39;
+body[data-theme='dark'] .book-container input[type="range"]::-webkit-slider-thumb { border-color: #34D399; }
+body[data-theme='dark'] .book-container input[type="range"]::-webkit-slider-thumb:hover { 
+    box-shadow: 0 0 12px rgba(110, 231, 183, 0.7), 0 0 0 5px rgba(16, 185, 129, 0.2); 
 }
-
-body.dark-theme .date-picker {
-    background-color: #162127; /* Nền Dark Jungle Green */
-    color: #e2e8f0; /* Chữ xám sáng */
-    border-color: #724B39; /* Viền Coffee điểm nhấn */
-    color-scheme: dark;
-}
-
-/* Đổi màu cái icon cuốn lịch mặc định thành màu sáng để dễ nhìn trong Dark Mode */
-body.dark-theme ::-webkit-calendar-picker-indicator {
-    filter: invert(1) opacity(0.8);
-    cursor: pointer;
+body[data-theme='dark'] .book-container .percentage-text { 
+    background: rgba(16, 185, 129, 0.15); color: #6EE7B7; border: 1px solid rgba(16, 185, 129, 0.3); 
 }

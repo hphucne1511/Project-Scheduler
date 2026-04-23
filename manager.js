@@ -1,195 +1,226 @@
+/* =========================================================================
+   CẤU HÌNH DỮ LIỆU & LƯU TRỮ (LOCAL STORAGE)
+   ========================================================================= */
 let schedulerData = JSON.parse(localStorage.getItem('schedulerData')) || [];
+let bookData = JSON.parse(localStorage.getItem('bookData')) || [];
 
-function getDayOfWeekVN(dateString) {
-    const parts = dateString.split('/');
-    // Tạo object Ngày tháng (Lưu ý: Javascript đếm tháng từ 0 nên phải lấy tháng trừ 1)
-    const dateObj = new Date(parts[2], parts[1] - 1, parts[0]);
-    
-    // Mảng chứa tên các Thứ (Chủ nhật có index là 0)
-    const days = ["Chủ nhật", "Thứ hai", "Thứ ba", "Thứ tư", "Thứ năm", "Thứ sáu", "Thứ bảy"];
-    
-    return days[dateObj.getDay()];
+// Tự động chuyển đổi dữ liệu cũ (theo ngày) sang cấu trúc mới (danh sách tổng) nếu cần
+if (schedulerData.length > 0 && schedulerData[0].tasks !== undefined) {
+    let newData = [];
+    schedulerData.forEach(day => {
+        day.tasks.forEach(task => {
+            let parts = day.date.split('/');
+            let formattedDate = parts.length === 3 ? `${parts[2]}-${parts[1]}-${parts[0]}` : "";
+            newData.push({
+                content: task.content,
+                progress: task.progress,
+                isDone: task.isDone,
+                deadline: formattedDate
+            });
+        });
+    });
+    schedulerData = newData;
+    saveData();
 }
 
-function saveData() {
-    localStorage.setItem('schedulerData', JSON.stringify(schedulerData));
-}
+function saveData() { localStorage.setItem('schedulerData', JSON.stringify(schedulerData)); }
+function saveBookData() { localStorage.setItem('bookData', JSON.stringify(bookData)); }
 
-function addNewDay() {
-    // 1. Lấy giá trị từ ô chọn ngày
-    const dateInput = document.getElementById('date-picker').value;
-    let displayDate = "";
-
-    // 2. Kiểm tra xem người dùng có chọn ngày chưa
-    if (dateInput) {
-        // Mặc định HTML lấy ngày dạng Năm-Tháng-Ngày (VD: 2026-04-20)
-        // Mình sẽ cắt nó ra và ghép lại thành dạng Việt Nam là Ngày/Tháng/Năm
-        const parts = dateInput.split('-');
-        displayDate = `${parts[2]}/${parts[1]}/${parts[0]}`;
-    } else {
-        // Nếu người dùng lười không chọn ngày mà bấm Thêm luôn, thì tự động lấy ngày hôm nay
-        displayDate = new Date().toLocaleDateString('vi-VN');
-    }
-
-    // 3. LOGIC XỊN: Kiểm tra xem ngày này đã có bảng chưa?
-    // Dùng hàm .some() để dò tìm trong dữ liệu
-    const isExist = schedulerData.some(day => day.date === displayDate);
-    if (isExist) {
-        alert(`Bảng công việc cho ngày ${displayDate} đã tồn tại rồi! Bạn tìm ở bên dưới nhé.`);
-        return; // Dừng hàm ngay lập tức, không tạo thêm bảng mới
-    }
-
-    // 4. Nếu mọi thứ OK, tạo bảng mới và nhét lên đầu danh sách
-    schedulerData.unshift({ date: displayDate, tasks: [] }); 
+/* =========================================================================
+   TÍNH NĂNG JOB (CÔNG VIỆC) - ĐÃ ĐƠN GIẢN HÓA
+   ========================================================================= */
+function addTask() {
+    schedulerData.push({ content: "", deadline: "", progress: 0, isDone: false });
     saveData();     
     renderBoards(); 
 }
 
-function addTask(dayIndex) {
-    schedulerData[dayIndex].tasks.push({ content: "", progress: 0, isDone: false });
+function updateTask(index, field, value) {
+    schedulerData[index][field] = value;
+    if(field === 'progress') schedulerData[index].isDone = (value == 100);
+    if(field === 'isDone') schedulerData[index].progress = value ? 100 : 0;
     saveData();     
     renderBoards(); 
 }
 
-function updateTask(dayIndex, taskIndex, field, value) {
-    schedulerData[dayIndex].tasks[taskIndex][field] = value;
-    
-    if(field === 'progress') {
-        schedulerData[dayIndex].tasks[taskIndex].isDone = (value == 100);
+function deleteTask(index) {
+    if(confirm("Xóa công việc này?")) {
+        schedulerData.splice(index, 1);
+        saveData();
+        renderBoards();
     }
-    if(field === 'isDone') {
-         schedulerData[dayIndex].tasks[taskIndex].progress = value ? 100 : 0;
+}
+
+function renderBoards() {
+    const container = document.getElementById('boards-area');
+    if (schedulerData.length === 0) {
+        container.innerHTML = `<div class="day-container" style="text-align: center; color: #6b7280; padding: 40px;">Chưa có công việc nào.</div>`;
+        return;
     }
 
-    saveData();     
-    renderBoards(); 
+    let rowsHtml = ''; 
+    schedulerData.forEach((task, index) => {
+        rowsHtml += `
+            <tr>
+                <td><input type="text" value="${task.content}" onchange="updateTask(${index}, 'content', this.value)" placeholder="Nhập tên công việc..."></td>
+                <td><input type="date" class="date-picker" style="width: 100%;" value="${task.deadline}" onchange="updateTask(${index}, 'deadline', this.value)"></td>
+                <td>
+                    <div class="progress-wrapper">
+                        <input type="range" min="0" max="100" value="${task.progress}" style="flex-grow: 1; --val: ${task.progress}%;"
+                        oninput="this.style.setProperty('--val', this.value + '%'); document.getElementById('span-job-${index}').innerText = this.value + '%';" 
+                        onchange="updateTask(${index}, 'progress', this.value)">
+                        <span class="percentage-text" id="span-job-${index}">${task.progress}%</span>
+                    </div>
+                </td>
+                <td style="text-align:center;"><input type="checkbox" ${task.isDone ? 'checked' : ''} onchange="updateTask(${index}, 'isDone', this.checked)"></td>
+                <td style="text-align:center;"><button class="btn-action-delete" onclick="deleteTask(${index})">🗑️</button></td>
+            </tr>`;
+    });
+
+    container.innerHTML = `
+        <div class="day-container">
+            <h2 style="margin-bottom: 20px;">🎯 Danh Sách Công Việc</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40%">Nội dung</th>
+                        <th style="width: 15%; text-align: center;">Deadline</th>
+                        <th style="width: 25%; text-align: center;">Tiến độ (%)</th>
+                        <th style="width: 10%; text-align: center;">Xong</th>
+                        <th style="width: 10%; text-align: center;">Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+            </table>
+        </div>`;
 }
 
 /* =========================================================================
-   [MỚI] THÊM HÀM XÓA NGÀY VÀ XÓA CÔNG VIỆC
+   TÍNH NĂNG BOOK (SÁCH) - TINH GỌN (KHÔNG LINK)
    ========================================================================= */
+function addBook() {
+    bookData.push({ title: "", readPages: 0, totalPages: 0, isLocked: false });
+    saveBookData();
+    renderBooks();
+}
 
-// Hàm xóa một ngày
-function deleteDay(dayIndex) {
-    // confirm(): Bật lên một hộp thoại hỏi người dùng cho chắc ăn
-    if(confirm("Bạn có chắc chắn muốn xóa TOÀN BỘ ngày này không?")) {
-        schedulerData.splice(dayIndex, 1); // Xóa 1 phần tử tại vị trí dayIndex
-        saveData();
-        renderBoards();
+function updateBook(index, field, value) {
+    if (field === 'totalPages' || field === 'readPages') value = parseInt(value) || 0;
+    bookData[index][field] = value;
+    if (field === 'readPages' && bookData[index].totalPages > 0 && bookData[index].readPages > bookData[index].totalPages) {
+        bookData[index].readPages = bookData[index].totalPages;
+    }
+    saveBookData();
+    renderBooks();
+}
+
+function toggleLockBook(index) {
+    if (bookData[index].totalPages > 0) {
+        bookData[index].isLocked = true;
+        saveBookData();
+        renderBooks();
+    } else {
+        alert("Vui lòng nhập tổng số trang!");
     }
 }
 
-// Hàm xóa một công việc cụ thể
-function deleteTask(dayIndex, taskIndex) {
-    if(confirm("Xóa công việc này?")) {
-        schedulerData[dayIndex].tasks.splice(taskIndex, 1); // Chui vào tasks và xóa
-        saveData();
-        renderBoards();
+function deleteBook(index) {
+    if (confirm("Xóa cuốn sách này?")) {
+        bookData.splice(index, 1);
+        saveBookData();
+        renderBooks();
     }
 }
 
-/* ========================================================================= */
-
-function renderBoards() {
-    schedulerData.sort((a, b) => {
-        // Chuyển "18/04/2026" thành "2026-04-18" để máy tính so sánh được
-        const dateA = new Date(a.date.split('/').reverse().join('-'));
-        const dateB = new Date(b.date.split('/').reverse().join('-'));
-        
-        // Trả về kết quả so sánh (Sắp xếp tăng dần: Ngày gần nhất hiện lên trước)
-        return dateA - dateB; 
-    });
-
-    const container = document.getElementById('boards-area');
-    container.innerHTML = ''; 
-
-    schedulerData.forEach((day, dayIndex) => {
-        let rowsHtml = ''; 
-
-        day.tasks.forEach((task, taskIndex) => {
-            rowsHtml += `
-                <tr>
-                    <td>${taskIndex + 1}</td>
-                    <td>
-                        <input type="text" value="${task.content}" 
-                        onchange="updateTask(${dayIndex}, ${taskIndex}, 'content', this.value)" 
-                        placeholder="Nhập tên công việc...">
-                    </td>
-                    <td>
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            
-                            <input type="range" min="0" max="100" value="${task.progress}" 
-                            id="slider-${dayIndex}-${taskIndex}"
-                            style="flex-grow: 1; --val: ${task.progress}%;"
-                            oninput="this.style.setProperty('--val', this.value + '%'); document.getElementById('span-${dayIndex}-${taskIndex}').innerText = this.value + '%';" 
-                            onchange="updateTask(${dayIndex}, ${taskIndex}, 'progress', this.value)">
-                            
-                            <span id="span-${dayIndex}-${taskIndex}" style="width: 40px; font-weight: bold;">${task.progress}%</span>
-                        </div>
-                    </td>
-                    <td style="text-align:center;">
-                        <input type="checkbox" ${task.isDone ? 'checked' : ''} 
-                        onchange="updateTask(${dayIndex}, ${taskIndex}, 'isDone', this.checked)">
-                    </td>
-                    <td style="text-align:center;">
-                        <button class="btn-delete" onclick="deleteTask(${dayIndex}, ${taskIndex})">Xóa</button>
-                    </td>
-                </tr>
-            `;
-        });
-        
-        const dayName = getDayOfWeekVN(day.date);
-
-        // [MỚI] Cập nhật lại phần Đầu Bảng: Thêm nút Xóa Ngày và Thêm Cột "Thao tác"
-        container.innerHTML += `
-            <div class="day-container">
-
-                <h2>${dayName}, ${day.date}</h2>
-                
-                <div class="day-header-actions">
-                    <button class="btn-add-task" onclick="addTask(${dayIndex})">+ Thêm Công Việc</button>
-                    <button class="btn-delete" onclick="deleteDay(${dayIndex})">Xóa Ngày Này</button>
-                </div>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th style="width: 5%">STT</th>
-                            <th style="width: 45%">Nội dung công việc</th>
-                            <th style="width: 30%">Tiến độ</th>
-                            <th style="width: 10%">Hoàn thành</th>
-                            <th style="width: 10%">Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${rowsHtml} 
-                    </tbody>
-                </table>
-            </div>
-        `;
-    });
+function syncBookProgress(index, percentage, totalPages) {
+    if (totalPages === 0) return;
+    const slider = document.getElementById(`book-slider-${index}`);
+    slider.style.setProperty('--val', percentage + '%');
+    document.getElementById(`book-percent-${index}`).innerText = percentage + '%';
+    const newReadPages = Math.round((percentage / 100) * totalPages);
+    document.getElementById(`read-pages-${index}`).value = newReadPages;
 }
 
+function renderBooks() {
+    const container = document.getElementById('books-area');
+    if (bookData.length === 0) { container.innerHTML = ''; return; }
+
+    let rowsHtml = '';
+    bookData.forEach((book, index) => {
+        let percentage = book.totalPages > 0 ? Math.round((book.readPages / book.totalPages) * 100) : 0;
+        rowsHtml += `
+            <tr>
+                <td><input type="text" value="${book.title}" onchange="updateBook(${index}, 'title', this.value)" placeholder="Tên sách..."></td>
+                <td>
+                    <div class="page-input-group">
+                        <input type="number" id="read-pages-${index}" value="${book.readPages}" onchange="updateBook(${index}, 'readPages', this.value)" min="0">
+                        <span>/</span>
+                        <input type="number" value="${book.totalPages}" onchange="updateBook(${index}, 'totalPages', this.value)" min="0" ${book.isLocked ? 'disabled' : ''}>
+                        <button class="btn-lock-icon ${book.isLocked ? 'locked' : ''}" onclick="${book.isLocked ? '' : `toggleLockBook(${index})`}" title="Khóa tổng trang">
+                            ${book.isLocked ? '🔒' : '🔓'}
+                        </button>
+                    </div>
+                </td>
+                <td>
+                    <div class="progress-wrapper">
+                        <input type="range" id="book-slider-${index}" min="0" max="100" value="${percentage}" style="--val: ${percentage}%;" ${book.totalPages > 0 ? '' : 'disabled'}
+                        oninput="syncBookProgress(${index}, this.value, ${book.totalPages})"
+                        onchange="updateBook(${index}, 'readPages', document.getElementById('read-pages-${index}').value)">
+                        <span class="percentage-text" id="book-percent-${index}">${percentage}%</span>
+                    </div>
+                </td>
+                <td style="text-align:center;"><button class="btn-action-delete" onclick="deleteBook(${index})">🗑️</button></td>
+            </tr>`;
+    });
+
+    container.innerHTML = `
+        <div class="book-container day-container">
+            <h3 style="margin-bottom: 15px;">📚 Sách Đang Đọc</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 40%">Tên sách</th>
+                        <th style="width: 25%; text-align: center;">Trang đã đọc / Tổng</th>
+                        <th style="width: 25%; text-align: center;">Tiến độ (%)</th>
+                        <th style="width: 10%; text-align: center;">Xóa</th>
+                    </tr>
+                </thead>
+                <tbody>${rowsHtml}</tbody>
+            </table>
+        </div>`;
+}
+
+/* =========================================================================
+   GIAO DIỆN & ĐIỀU HƯỚNG
+   ========================================================================= */
+// --- QUẢN LÝ ĐA THEME ---
+const currentTheme = localStorage.getItem('theme') || 'light';
+document.body.setAttribute('data-theme', currentTheme);
+
+const themeSelect = document.getElementById('theme-select');
+if (themeSelect) {
+    themeSelect.value = currentTheme;
+}
+
+function changeTheme(themeName) {
+    document.body.setAttribute('data-theme', themeName);
+    localStorage.setItem('theme', themeName);
+}
+
+function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
+
+function switchView(viewName) {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('boards-area').style.display = viewName === 'job' ? 'block' : 'none';
+    document.getElementById('books-area').style.display = viewName === 'book' ? 'block' : 'none';
+    document.getElementById('job-actions').style.display = viewName === 'job' ? 'flex' : 'none';
+    document.getElementById('book-actions').style.display = viewName === 'book' ? 'flex' : 'none';
+    document.getElementById('nav-job').className = viewName === 'job' ? 'active' : '';
+    document.getElementById('nav-book').className = viewName === 'book' ? 'active' : '';
+    document.getElementById('page-title').innerText = viewName === 'job' ? "Project & Task Scheduler" : "Book Reading Tracker";
+    viewName === 'job' ? renderBoards() : renderBooks();
+}
+
+// Khởi chạy mặc định
 renderBoards();
-const themeBtn = document.getElementById('theme-btn');
-
-// 1. Vừa mở web lên, kiểm tra xem lần trước người dùng đang xài màu gì
-if (localStorage.getItem('theme') === 'dark') {
-    document.body.classList.add('dark-theme'); // Mặc áo tối vào
-    themeBtn.innerText = '☀️ Light Mode'; // Đổi chữ gợi ý bấm về màu sáng Mode
-}
-
-// 2. Hàm thực thi khi bấm nút đổi giao diện Toggle Theme
-function toggleTheme() {
-    // toggle(): Nếu thẻ body chưa có class 'dark-theme' thì gắn vào, nếu có rồi thì gỡ ra
-    document.body.classList.toggle('dark-theme');
-    
-    // Kiểm tra xem áo tối đang được mặc hay đã cởi Mode Mode dark-theme
-    const isDark = document.body.classList.contains('dark-theme');
-    
-    // Ghi nhớ lại lựa chọn bằng localStorage update localStorage
-    localStorage.setItem('theme', isDark ? 'dark' : 'light'); 
-    
-    // Đổi chữ trên nút để gợi ý Mode sáng tối Mode
-    themeBtn.innerText = isDark ? '☀️ Light Mode' : '🌙 Dark Mode'; 
-}
+renderBooks();

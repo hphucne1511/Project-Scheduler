@@ -1,0 +1,177 @@
+/* =========================================
+   OCEAN THEME (Custom Palette)
+   1. TIMBERWOLF: #D3D0C8
+   2. ALICE BLUE: #E9F1F6
+   3. LIGHT BLUE: #B2D5E2
+   4. MOONSTONE: #44A6B5
+   5. MIDNIGHT GREEN: #004554
+   ========================================= */
+
+/* --- NỀN ĐẠI DƯƠNG SỐNG ĐỘNG (RADIAL DEPTH) --- */
+body[data-theme='ocean'] { 
+    /* Ánh sáng hắt từ dưới lên, mờ dần vào vùng nước sâu */
+    background: radial-gradient(circle at 50% 120%, #44A6B5 0%, #004554 50%, #002b35 100%);
+    background-attachment: fixed;
+    color: #E9F1F6; 
+}
+
+/* --- HIỆU ỨNG BỌT KHÍ (FLOATING BUBBLES) --- */
+.ocean-bubbles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: -1; /* Nằm chìm dưới cùng */
+    pointer-events: none; overflow: hidden; margin: 0; padding: 0;
+    display: none; /* Ẩn mặc định ở các theme khác */
+}
+
+/* Chỉ kích hoạt bọt khí khi đang ở theme Ocean */
+body[data-theme='ocean'] .ocean-bubbles { display: block; }
+
+.ocean-bubbles li {
+    position: absolute; display: block; list-style: none;
+    bottom: -150px; 
+    background: rgba(178, 213, 226, 0.15); 
+    border: 1px solid rgba(233, 241, 246, 0.3); 
+    
+    /* KHÔNG DÙNG 50% NỮA. Dùng 8 thông số để tạo hình giọt nước/amoeba không đều */
+    border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    
+    backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+    animation: floatUp 20s infinite linear;
+}
+
+/* Random hóa kích thước, vị trí và tốc độ cho 8 bọt khí */
+.ocean-bubbles li:nth-child(1) { left: 10%; width: 40px; height: 40px; animation-duration: 14s; }
+.ocean-bubbles li:nth-child(2) { left: 25%; width: 15px; height: 15px; animation-duration: 18s; animation-delay: 2s; }
+.ocean-bubbles li:nth-child(3) { left: 45%; width: 60px; height: 60px; animation-duration: 24s; animation-delay: 5s; }
+.ocean-bubbles li:nth-child(4) { left: 65%; width: 30px; height: 30px; animation-duration: 16s; animation-delay: 1s; }
+.ocean-bubbles li:nth-child(5) { left: 80%; width: 45px; height: 45px; animation-duration: 22s; animation-delay: 7s; }
+.ocean-bubbles li:nth-child(6) { left: 90%; width: 20px; height: 20px; animation-duration: 12s; animation-delay: 3s; }
+.ocean-bubbles li:nth-child(7) { left: 35%; width: 35px; height: 35px; animation-duration: 19s; animation-delay: 8s; }
+.ocean-bubbles li:nth-child(8) { left: 55%; width: 25px; height: 25px; animation-duration: 15s; animation-delay: 4s; }
+
+/* Quy luật di chuyển: Lên cao, lắc lư và tan biến */
+/* Quy luật di chuyển: Lên cao, lắc lư và liên tục biến đổi hình dạng (Morphing) */
+@keyframes floatUp {
+    0% { 
+        transform: translateY(0) scale(0.8) translateX(0); 
+        opacity: 0; 
+        /* Hình dáng ban đầu */
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+    10% { opacity: 1; }
+    25% {
+        /* Ép dãn ngang khi chịu áp suất */
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+    50% { 
+        transform: translateY(-50vh) scale(1.1) translateX(20px); 
+        /* Méo xệch đi khi lách qua dòng nước */
+        border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+    75% {
+        /* Trở lại hình thuôn dài khi tăng tốc nảy lên bề mặt */
+        border-radius: 50% 50% 30% 70% / 70% 70% 30% 30%;
+    }
+    80% { opacity: 0.8; }
+    100% { 
+        transform: translateY(-110vh) scale(1.5) translateX(-25px); 
+        opacity: 0; 
+        /* Hình dáng cuối cùng trước khi vỡ */
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+    }
+}
+
+/* --- Kính mờ (Glassmorphism) cho Top Bar & Sidebar --- */
+body[data-theme='ocean'] .top-bar { background-color: rgba(0, 69, 84, 0.85); border-bottom: 1px solid rgba(68, 166, 181, 0.3); }
+body[data-theme='ocean'] .sidebar { background-color: rgba(0, 50, 65, 0.9); border-right: 1px solid rgba(68, 166, 181, 0.2); }
+body[data-theme='ocean'] .btn-menu .bar { background-color: #B2D5E2; }
+
+/* --- Menu Sidebar --- */
+body[data-theme='ocean'] .nav-links li { color: #D3D0C8; } /* Timberwolf cho text phụ */
+body[data-theme='ocean'] .nav-links li:hover { background-color: rgba(68, 166, 181, 0.15); color: #E9F1F6; }
+body[data-theme='ocean'] .nav-links li.active { 
+    background-color: #44A6B5; color: #004554; 
+    box-shadow: 0 4px 15px rgba(68, 166, 181, 0.4); font-weight: bold; 
+}
+
+/* --- Bảng Container & Tiêu đề --- */
+body[data-theme='ocean'] .day-container, body[data-theme='ocean'] .book-container { 
+    background-color: rgba(0, 0, 0, 0.15); /* Nền bảng tối hơn nền body một chút để tạo chiều sâu */
+    border: 1px solid rgba(68, 166, 181, 0.2);
+    border-top: 4px solid #44A6B5; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25); 
+}
+body[data-theme='ocean'] h1, body[data-theme='ocean'] .day-container h2, body[data-theme='ocean'] .book-container h3 { color: #E9F1F6; } /* Alice Blue */
+body[data-theme='ocean'] th { background-color: rgba(0, 0, 0, 0.2); color: #B2D5E2; border-bottom: 1px solid rgba(68, 166, 181, 0.3); } /* Light Blue */
+body[data-theme='ocean'] td { border-bottom: 1px solid rgba(68, 166, 181, 0.15); }
+
+/* --- Nút chọn Theme Dropdown --- */
+body[data-theme='ocean'] select.btn-toggle-theme { 
+    background-color: rgba(0, 0, 0, 0.2); color: #B2D5E2; border-color: rgba(68, 166, 181, 0.4); 
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23B2D5E2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+}
+body[data-theme='ocean'] select.btn-toggle-theme:hover { background-color: rgba(68, 166, 181, 0.2); border-color: #44A6B5; }
+
+/* --- ACCENT COLOR: MOONSTONE CHO NÚT THÊM --- */
+body[data-theme='ocean'] .btn-add-day, body[data-theme='ocean'] .btn-add-book {
+    background-color: #44A6B5 !important; /* Moonstone */
+    color: #004554 !important; /* Chữ màu Midnight Green để nổi bật trên nền Moonstone */
+    border: none; font-weight: bold;
+    box-shadow: 0 4px 12px rgba(68, 166, 181, 0.3) !important;
+}
+body[data-theme='ocean'] .btn-add-day:hover, body[data-theme='ocean'] .btn-add-book:hover {
+    background-color: #B2D5E2 !important; /* Đổi sang Light Blue khi hover */
+    box-shadow: 0 6px 15px rgba(178, 213, 226, 0.4) !important;
+}
+
+/* Nút Xóa */
+body[data-theme='ocean'] .btn-action-delete { color: #D3D0C8; }
+body[data-theme='ocean'] .btn-action-delete:hover { background: rgba(211, 208, 200, 0.1); color: #E9F1F6; }
+
+/* --- Ô Nhập liệu & Checkbox --- */
+body[data-theme='ocean'] input[type="text"], body[data-theme='ocean'] input[type="number"], 
+body[data-theme='ocean'] .date-picker, body[data-theme='ocean'] .page-input-group { 
+    background: rgba(0, 0, 0, 0.15); color: #E9F1F6; border: 1px solid rgba(68, 166, 181, 0.3);
+}
+body[data-theme='ocean'] input[type="text"]:focus, body[data-theme='ocean'] input[type="number"]:focus {
+    border-color: #44A6B5; box-shadow: 0 0 0 3px rgba(68, 166, 181, 0.2); background: rgba(0, 0, 0, 0.25);
+}
+body[data-theme='ocean'] input[type="checkbox"] { background-color: rgba(0, 0, 0, 0.2); border-color: rgba(68, 166, 181, 0.4); }
+body[data-theme='ocean'] input[type="checkbox"]:checked { background-color: #44A6B5; border-color: #44A6B5; }
+
+/* --- THIẾT KẾ SLIDER ĐỒNG BỘ PALETTE --- */
+body[data-theme='ocean'] .day-container input[type="range"] { 
+    background-color: rgba(0,0,0,0.3); box-shadow: inset 0 1px 4px rgba(0,0,0,0.6); 
+}
+body[data-theme='ocean'] .day-container input[type="range"]::-webkit-slider-thumb { 
+    background: #E9F1F6 !important; border: 2px solid #44A6B5 !important; 
+}
+body[data-theme='ocean'] .day-container input[type="range"]::-webkit-slider-thumb:hover { 
+    box-shadow: 0 0 12px rgba(178, 213, 226, 0.8), 0 0 0 5px rgba(68, 166, 181, 0.3) !important; 
+}
+
+/* Gradient Slider: Chuyển từ Light Blue sang Moonstone */
+body[data-theme='ocean'] .day-container:not(.book-container) input[type="range"],
+body[data-theme='ocean'] .book-container input[type="range"] {
+    background-image: linear-gradient(90deg, #B2D5E2, #44A6B5);
+}
+
+/* Text % */
+body[data-theme='ocean'] .day-container .percentage-text { 
+    background: rgba(68, 166, 181, 0.15) !important; color: #B2D5E2 !important; border: 1px solid rgba(68, 166, 181, 0.4) !important; 
+}
+/* --- BREATHING BACKGROUND (Thay thế màu nền cũ) --- */
+body[data-theme='ocean'] { 
+    /* Dùng gradient pha trộn các dải màu của Ocean palette */
+    background: linear-gradient(-45deg, #004554, #003241, #082f49, #004554);
+    background-size: 400% 400%;
+    color: #E9F1F6; 
+    /* Chạy animation vô tận, chu kỳ 15s để đủ chậm rãi và tinh tế */
+    animation: gradientBreathe 15s ease infinite;
+}
+
+@keyframes gradientBreathe {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

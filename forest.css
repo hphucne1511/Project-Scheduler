@@ -1,0 +1,113 @@
+/* =========================================
+   FOREST THEME (Palette: Brown Earth & Sage)
+   1. EARTH BROWN: #26221B (Nền mới)
+   2. DARK OLIVE GREEN: #516128
+   3. GAINSBORO: #E2DED6
+   4. SAGE: #C1BBA5
+   5. GRAY-GREEN: #898B64
+   ========================================= */
+
+body[data-theme='forest'] { 
+    background: #26221B; /* Đã chuyển sang màu hơi nâu một xíu */
+    color: #E2DED6; 
+}
+
+/* --- Kính mờ cho Top Bar & Sidebar --- */
+body[data-theme='forest'] .top-bar { 
+    background-color: rgba(38, 34, 27, 0.85); /* Đồng bộ theo tông nâu */
+    border-bottom: 1px solid rgba(193, 187, 165, 0.2); 
+}
+body[data-theme='forest'] .sidebar { 
+    background-color: rgba(38, 34, 27, 0.95); /* Đồng bộ theo tông nâu */
+    border-right: 1px solid rgba(137, 139, 100, 0.2); 
+}
+body[data-theme='forest'] .btn-menu .bar { background-color: #E2DED6; }
+
+/* --- Menu Sidebar --- */
+body[data-theme='forest'] .nav-links li { color: #C1BBA5; }
+body[data-theme='forest'] .nav-links li:hover { 
+    background-color: rgba(81, 97, 40, 0.2); 
+    color: #E2DED6; 
+}
+body[data-theme='forest'] .nav-links li.active { 
+    background-color: #516128; 
+    color: #E2DED6; 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5); 
+}
+
+/* --- Bảng Container & Tiêu đề --- */
+body[data-theme='forest'] .day-container, 
+body[data-theme='forest'] .book-container { 
+    background-color: #516128; 
+    border: 1px solid rgba(193, 187, 165, 0.1);
+    border-top: 4px solid #898B64; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4); 
+}
+body[data-theme='forest'] h1, 
+body[data-theme='forest'] .day-container h2, 
+body[data-theme='forest'] .book-container h3 { color: #E2DED6; }
+
+body[data-theme='forest'] th { 
+    background-color: rgba(38, 34, 27, 0.4); /* Nền header bảng theo tông nâu */
+    color: #C1BBA5; 
+    border-bottom: 1px solid rgba(193, 187, 165, 0.2); 
+}
+body[data-theme='forest'] td { border-bottom: 1px solid rgba(193, 187, 165, 0.1); }
+
+/* --- Nút chọn Theme Dropdown --- */
+body[data-theme='forest'] select.btn-toggle-theme { 
+    background-color: rgba(38, 34, 27, 0.5); 
+    color: #E2DED6; 
+    border-color: #898B64; 
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23E2DED6" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+}
+
+/* --- ACCENT COLOR: GRAY CHO NÚT THÊM --- */
+body[data-theme='forest'] .btn-add-day, 
+body[data-theme='forest'] .btn-add-book {
+    background-color: #898B64 !important; 
+    color: #26221B !important; /* Chữ tối trên nền sáng */
+    border: none; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+}
+body[data-theme='forest'] .btn-add-day:hover, 
+body[data-theme='forest'] .btn-add-book:hover {
+    background-color: #E2DED6 !important; 
+}
+
+/* --- Ô Nhập liệu & Checkbox --- */
+body[data-theme='forest'] input[type="text"], 
+body[data-theme='forest'] input[type="number"], 
+body[data-theme='forest'] .date-picker, 
+body[data-theme='forest'] .page-input-group { 
+    background: rgba(38, 34, 27, 0.4); 
+    color: #E2DED6; 
+    border: 1px solid #C1BBA5;
+}
+body[data-theme='forest'] input[type="text"]:focus, 
+body[data-theme='forest'] input[type="number"]:focus {
+    border-color: #E2DED6; 
+    background: rgba(38, 34, 27, 0.6);
+}
+
+/* --- THIẾT KẾ SLIDER --- */
+body[data-theme='forest'] .day-container input[type="range"] { 
+    background-color: rgba(38, 34, 27, 0.6); 
+}
+body[data-theme='forest'] .day-container input[type="range"]::-webkit-slider-thumb { 
+    background: #E2DED6 !important; 
+    border: 2px solid #898B64 !important; 
+}
+
+/* Gradient Slider: Chuyển từ Sage sang Gray */
+body[data-theme='forest'] .day-container:not(.book-container) input[type="range"],
+body[data-theme='forest'] .book-container input[type="range"] {
+    background-image: linear-gradient(90deg, #C1BBA5, #898B64);
+}
+
+/* Text % */
+body[data-theme='forest'] .day-container .percentage-text { 
+    background: rgba(193, 187, 165, 0.1) !important; 
+    color: #C1BBA5 !important; 
+    border: 1px solid #C1BBA5 !important; 
+}

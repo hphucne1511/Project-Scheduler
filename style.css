@@ -1,146 +1,316 @@
-/* style.css - CHỨA BỐ CỤC VÀ MÀU SÁNG MẶC ĐỊNH */
-* {
-    font-family: 'Poppins', sans-serif;
-}
-:root {
-    --track-fill: #4C9DB0; /* Màu tô đầy (Xanh Moonstone) */
-    --track-hash: #ccc;    /* Màu vạch gạch chéo */
-    --track-bg: #fff;      /* Màu nền rãnh */
-    --thumb-color: #fff;   /* Màu cục kéo */
-    --thumb-border: #333;  /* Màu viền cục kéo */
-    --track-border: #333;  /* Màu viền bao quanh thanh trượt */
-}
+/* =========================================
+   CẤU TRÚC CƠ BẢN VÀ LIGHT THEME (MODERN UI)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* { font-family: 'Inter', 'Poppins', sans-serif; box-sizing: border-box; }
 
 body { 
-    font-family: Arial, sans-serif; 
-    margin: 0; 
-    padding: 0 20px 20px 20px; 
-    /* Nền gradient sáng ban đầu */
-    background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
-    color: #333; /* Chữ màu tối cho nền sáng */
-    background-attachment: fixed; 
+    margin: 0; padding: 0 20px 40px 20px; 
+    background: #f4f7f6; 
+    color: #1f2937; 
     min-height: 100vh;
+    transition: background-color 0.3s ease;
 }
 
-/* Thanh Top Bar mờ, ghim trên cùng */
+/* --- THANH TOP BAR --- */
 .top-bar {
     position: sticky; top: 0; 
-    background-color: rgba(255, 255, 255, 0.7); /* Kính mờ trắng */
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-    padding: 15px 20px; margin: 0 -20px 20px -20px; 
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05); z-index: 1000; 
+    background-color: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    padding: 15px 30px; margin: 0 -20px 30px -20px; 
+    border-bottom: 1px solid rgba(255,255,255,0.5);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03); 
+    z-index: 1002; 
     display: flex; justify-content: space-between; align-items: center;
 }
+.top-bar h1 { margin: 0; color: #111827; font-size: 22px; font-weight: 700; letter-spacing: -0.5px; }
+.top-actions { display: flex; gap: 12px; align-items: center; }
 
-.top-bar h1 { margin: 0; color: #2c3e50; font-size: 24px; }
-
-/* Gom 2 nút bấm trên Top Bar nằm ngang hàng */
-.top-actions { display: flex; gap: 15px; }
-
-/* Nút Đổi giao diện */
-.btn-toggle-theme {
-    /* Dùng màu xám đen để nhìn "ngầu" và phù hợp để đổi màu */
-    background-color: #334155; color: white;
-    padding: 10px 15px; border: none; border-radius: 6px; 
-    cursor: pointer; font-weight: bold; transition: 0.3s;
+/* --- CÁC NÚT BẤM (BUTTONS) MODERN --- */
+button { 
+    transition: all 0.2s ease; font-family: inherit; 
+    border-radius: 8px; border: none; cursor: pointer; font-weight: 600;
+    display: inline-flex; align-items: center; justify-content: center;
 }
-.btn-toggle-theme:hover { background-color: #475569; }
+button:active { transform: scale(0.96); }
 
-/* Nút Thêm Ngày ( Header) - dùng màu xanh dương điểm nhấn */
-.btn-add-day { background-color: #007bff; color: white; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.btn-add-day:hover { background-color: #0069d9; }
-
-/* Nút Thêm Công Việc (Trong hộp) - dùng màu xanh lá ban đầu */
-.btn-add-task { background-color: #28a745; color: white; padding: 10px 15px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.btn-add-task:hover { background-color: #218838; }
-
-/* Nút Xóa nguy hiểm */
-.btn-delete { background-color: #dc3545; color: white; padding: 8px 12px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-.btn-delete:hover { background-color: #c82333; }
-
-/* Hộp chứa bảng công việc - nền Vanilla ấm */
-.day-container { 
-    background-color: #FFEBAF; padding: 20px; border-radius: 12px; margin-top: 20px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+/* --- Thiết kế lại Menu Dropdown chọn Theme --- */
+select.btn-toggle-theme { 
+    appearance: none; -webkit-appearance: none; -moz-appearance: none;
+    background-color: #ffffff; color: #374151; 
+    padding: 10px 36px 10px 16px; 
+    border: 1px solid #d1d5db; border-radius: 8px;
+    font-weight: 600; font-size: 14px; cursor: pointer;
+    /* Thêm icon mũi tên custom */
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23374151" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>');
+    background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+    transition: all 0.2s ease;
 }
-.day-container h2 { color: #333; margin-top: 0; }
-.day-header-actions { display: flex; gap: 10px; margin-bottom: 15px; }
+select.btn-toggle-theme:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-color: #9ca3af; }
 
-/* Bảng */
-table { width: 100%; border-collapse: collapse; margin-top: 15px; background-color: white; }
-th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-/* Tiêu đề bảng dùng màu xanh dương Moonstone cũ */
-th { background-color: #4C9DB0; color: white; font-size: 16px; }
+/* Đổi nút thêm ngày sang Xanh Dương */
+.btn-add-day { background-color: #2563EB; color: white; padding: 10px 18px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+.btn-add-day:hover { background-color: #1D4ED8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3); }
 
-/* Các ô nhập và checkbox mặc định */
-input[type="text"] { width: 90%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; background-color: white; color: black; }
-input[type="checkbox"] { width: 20px; height: 20px; cursor: pointer; }
+/* Đổi nút thêm task sang Xanh Dương nhạt */
+.btn-add-task { background-color: #f3f4f6; color: #2563EB; padding: 8px 16px; border: 1px solid #e5e7eb; }
+.btn-add-task:hover { background-color: #eff6ff; border-color: #bfdbfe; transform: translateY(-1px); }
 
-/* Các ô Thao tác và Hoàn thành căn giữa */
-td:nth-child(4), td:nth-child(5) { text-align: center; }
+.btn-delete { background-color: #fee2e2; color: #dc2626; padding: 8px 14px; }
+.btn-delete:hover { background-color: #fecaca; transform: translateY(-1px); }
 
-/* Tầm nhìn cho nút Xóa container header */
-.day-header-actions .btn-delete {
-    padding: 10px 15px;
+/* Đổi viền focus ngày tháng sang Xanh Dương */
+.date-picker { padding: 9px 14px; border: 1px solid #d1d5db; border-radius: 8px; outline: none; cursor: pointer; background: white; font-family: inherit; color: #374151; }
+.date-picker:focus { border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+
+/* --- SIDEBAR GLASSMORPHISM --- */
+.sidebar {
+    position: fixed; left: -280px; top: 0; width: 280px; height: 100%;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    border-right: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.04);
+    transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 1000; padding-top: 90px; 
+}
+.sidebar.open { left: 0; }
+
+.btn-menu {
+    background: transparent; border: none; border-radius: 8px;
+    width: 45px; height: 45px; padding: 0;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 6px; z-index: 1001; 
+}
+.btn-menu:hover { background: rgba(0,0,0,0.05); }
+.btn-menu .bar { width: 22px; height: 2px; background-color: #1f2937; border-radius: 2px; transition: 0.3s; }
+
+.nav-links { list-style: none; padding: 0 15px; margin: 0; }
+.nav-links li { padding: 14px 20px; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: #4b5563; cursor: pointer; border-radius: 10px; transition: 0.2s; }
+.nav-links li:hover { background-color: #f3f4f6; color: #111827; }
+/* Đổi menu đang chọn sang Xanh Dương */
+.nav-links li.active { background-color: #2563EB; color: white; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
+
+/* --- BỐ CỤC BẢNG (CONTAINER DẠNG THẺ - CARDS) --- */
+/* Cập nhật trạng thái tĩnh cho Card */
+.day-container, .book-container { 
+    /* ... (giữ nguyên các thuộc tính cũ của bạn) ... */
+    /* Chuyển sang dùng cubic-bezier tạo cảm giác nảy nhẹ */
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1); 
+}
+
+/* --- FLUID HOVER EFFECT --- */
+.day-container:hover, .book-container:hover { 
+    transform: translateY(-4px) scale(1.005); /* Bay lên và to ra chỉ 0.5% */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.08), 
+                0 1px 3px rgba(0,0,0,0.05); /* Bóng đổ 2 lớp: 1 sâu, 1 gắt */
+}
+
+/* Đổi viền trên của bảng Công việc sang Xanh Dương */
+.day-container { border-top: 4px solid #2563EB; } 
+.book-container { border-top: 4px solid #10B981; margin-top: 40px;} 
+
+.day-container h2, .book-container h3 { margin-top: 0; color: #111827; font-size: 20px; font-weight: 700; }
+.day-header-actions { display: flex; gap: 10px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #f3f4f6; }
+
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; }
+th, td { padding: 16px 12px; text-align: left; border-bottom: 1px solid #f3f4f6; vertical-align: middle; }
+th { font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.8px; background: #f9fafb; }
+th:first-child { border-top-left-radius: 8px; border-bottom-left-radius: 8px; }
+th:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+
+/* --- Ô NHẬP LIỆU (INPUT) TRONG BẢNG --- */
+input[type="text"], input[type="number"] {
+    width: 100%; padding: 10px 14px; border-radius: 8px; font-size: 14px;
+    border: 1px solid transparent; background: #f9fafb; transition: all 0.2s; color: #1f2937;
+}
+/* Đổi viền focus input sang Xanh Dương */
+input[type="text"]:focus, input[type="number"]:focus {
+    background: #ffffff; border: 1px solid #2563EB; outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* --- KHỐI NHẬP SỐ TRANG & NÚT KHÓA --- */
+.page-input-group {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    background: #f9fafb; padding: 6px 12px; border-radius: 12px; border: 1px solid #e5e7eb; width: fit-content; margin: 0 auto;
+}
+.page-input-group input { width: 60px; text-align: center; font-weight: 600; padding: 4px; background: transparent; }
+.page-input-group span { color: #9ca3af; font-weight: bold; }
+
+.btn-lock-icon {
+    border: none; background: transparent; width: 32px; height: 32px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9ca3af; transition: 0.2s;
+}
+.btn-lock-icon:hover { background: #e5e7eb; }
+.btn-lock-icon.locked { color: #d97706; background: #fef3c7; }
+
+/* --- NÚT THÊM SÁCH & THAO TÁC SÁCH --- */
+.btn-add-book { background-color: #10B981; color: white; padding: 10px 18px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+.btn-add-book:hover { background-color: #059669; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3); }
+
+.btn-action-delete { background: none; border: none; font-size: 18px; cursor: pointer; opacity: 0.4; padding: 8px; border-radius: 8px; }
+.btn-action-delete:hover { opacity: 1; background: #fee2e2; }
+
+/* =========================================
+   THIẾT KẾ LẠI SLIDER (NÂNG CẤP HIỆN ĐẠI)
+   ========================================= */
+.progress-wrapper { display: flex; align-items: center; gap: 15px; width: 100%; }
+
+/* Khối hiển thị % */
+.percentage-text { 
+    font-size: 13px; font-weight: 700; width: 55px; 
+    background: #f3f4f6; padding: 6px 10px; border-radius: 8px; 
+    text-align: center; transition: all 0.3s ease;
+}
+
+/* Thanh rãnh nền */
+input[type="range"] {
+    -webkit-appearance: none; appearance: none; width: 100%; height: 8px; border-radius: 10px;
+    outline: none; cursor: pointer; background-color: #e5e7eb; background-repeat: no-repeat;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1); /* Bóng lõm tạo chiều sâu */
+}
+
+/* Nút kéo (Thumb) chung */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 0 0 4px transparent;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.2s ease;
+}
+
+/* Hiệu ứng nảy khi tương tác */
+input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+input[type="range"]::-webkit-slider-thumb:active { transform: scale(1.25); }
+
+/* --- Slider Công việc (Màu Xanh Dương Gradient) --- */
+.day-container:not(.book-container) input[type="range"] { 
+    background-image: linear-gradient(90deg, #60A5FA, #2563EB); 
+    background-size: var(--val, 0%) 100%; 
+}
+.day-container:not(.book-container) input[type="range"]::-webkit-slider-thumb { border: 2px solid #2563EB; }
+.day-container:not(.book-container) input[type="range"]::-webkit-slider-thumb:hover { 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 0 0 5px rgba(37, 99, 235, 0.15); 
+}
+.day-container:not(.book-container) .percentage-text { 
+    color: #1D4ED8; background: #eff6ff; border: 1px solid #bfdbfe; 
+}
+
+/* --- Slider Sách (Màu Xanh Ngọc Gradient) --- */
+.book-container input[type="range"] { 
+    background-image: linear-gradient(90deg, #34D399, #059669); 
+    background-size: var(--val, 0%) 100%; 
+}
+.book-container input[type="range"]::-webkit-slider-thumb { border: 2px solid #10B981; }
+.book-container input[type="range"]::-webkit-slider-thumb:hover { 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2), 0 0 0 5px rgba(16, 185, 129, 0.15); 
+}
+.book-container .percentage-text { 
+    color: #047857; background: #ecfdf5; border: 1px solid #a7f3d0; 
+}
+/* Checkbox */
+input[type="checkbox"] {
+    -webkit-appearance: none; appearance: none; width: 22px; height: 22px; background-color: #f9fafb;
+    border: 2px solid #d1d5db; border-radius: 6px; cursor: pointer; position: relative; transition: 0.2s;
+}
+input[type="checkbox"]:checked { background-color: #10B981; border-color: #10B981; }
+input[type="checkbox"]:checked::after {
+    content: '✔'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 13px; font-weight: bold;
+}
+/* --- FILM GRAIN TEXTURE OVERLAY --- */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    /* Dùng một ảnh nhiễu hạt base64 cực nhẹ */
+    background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+    opacity: 0.04; /* Chỉ để mờ 4%, tạo cảm giác gai góc nhẹ */
+    pointer-events: none; /* Xuyên qua lớp này để click được nút */
+    z-index: 9999;
 }
 /* =========================================
-   LÀM ĐẸP THANH SLIDER & CHECKBOX (KHUNG CƠ BẢN & MÀU SÁNG)
+   HỆ THỐNG HÌNH KHỐI HỮU CƠ (GLOBAL)
+   Áp dụng cho mọi theme để xóa bỏ sự vuông vức
    ========================================= */
 
-/* Custom Slider giống bản vẽ tay */
-input[type="range"] {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 18px; /* Độ dày rãnh */
-    border-radius: 20px;
-    border: 2px solid var(--track-border); /* Viền bao quanh rãnh */
-    outline: none;
-    cursor: pointer;
-    background: 
-        linear-gradient(to right, var(--track-fill) var(--val, 0%), transparent var(--val, 0%)),
-        repeating-linear-gradient(-45deg, transparent, transparent 4px, var(--track-hash) 4px, var(--track-hash) 6px),
-        var(--track-bg);
+/* 1. Thẻ Container: Bo góc cực lớn như những viên đá cuội */
+.day-container, .book-container {
+    border-radius: 35px !important;
+    padding: 30px 40px !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    /* Đổ bóng 2 lớp: 1 lớp sâu và 1 lớp gắt để tạo khối thực */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05) !important;
 }
 
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 26px; /* Cục kéo to tròn */
-    height: 26px;
-    border-radius: 50%;
-    background: var(--thumb-color);
-    border: 3px solid var(--thumb-border);
-    cursor: pointer;
-    transition: transform 0.1s;
+/* 2. Thành phần tương tác dạng "Viên thuốc" (Pill-shaped) */
+input[type="text"], 
+input[type="number"], 
+.date-picker, 
+button, 
+select.btn-toggle-theme,
+.page-input-group {
+    border-radius: 50px !important; /* Bo tròn hoàn toàn hai đầu */
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
-    transform: scale(1.15); /* Rê chuột vào cục kéo bự lên chút */
-}
-
-/* 2. Nút Checkbox hoàn thành */
+/* 3. Làm mềm Checkbox & Nút xóa */
 input[type="checkbox"] {
-    appearance: none; -webkit-appearance: none;
-    width: 24px; height: 24px; background-color: white;
-    border: 2px solid #ccc; border-radius: 6px;
-    cursor: pointer; position: relative; transition: all 0.3s ease;
+    border-radius: 10px !important; /* Bo góc checkbox */
 }
-/* Khi được tick vào (Màu xanh lá) */
-input[type="checkbox"]:checked {
-    background-color: #28a745; border-color: #28a745;
+.btn-action-delete {
+    border-radius: 50% !important; /* Nút xóa hình tròn */
+    width: 40px; height: 40px;
+    display: inline-flex; align-items: center; justify-content: center;
 }
-/* Vẽ dấu tick ✔ màu trắng */
-input[type="checkbox"]:checked::after {
-    content: '✔'; position: absolute;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    color: white; font-size: 16px; font-weight: bold;
+
+/* 4. Cấu trúc Bảng "Dòng chảy" (Floating Rows) */
+table {
+    border-spacing: 0 10px !important; /* Tạo khoảng cách giữa các hàng */
+    border-collapse: separate !important;
 }
-.date-picker {
-    padding: 8px 12px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-    cursor: pointer;
+tr td {
+    border-bottom: none !important; /* Bỏ gạch chân hàng truyền thống */
+    background: rgba(0, 0, 0, 0.03); /* Tạo nền nhẹ cho từng hàng */
+}
+/* Bo tròn hai đầu cho từng hàng trong bảng */
+tr td:first-child { border-top-left-radius: 20px; border-bottom-left-radius: 20px; }
+tr td:last-child { border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
+
+/* 5. Hiệu ứng Micro-interaction (Co giãn khi tương tác) */
+input[type="text"]:focus, input[type="number"]:focus {
+    transform: scale(1.02); /* Phình nhẹ khi nhập liệu */
+}
+button:active {
+    transform: scale(0.92); /* Lún xuống khi nhấn */
+}
+select.btn-toggle-theme {
+    padding-right: 42px !important; /* Tăng mạnh khoảng trống bên phải để chứa mũi tên */
+    background-position: right 16px center !important; /* Căn chỉnh lại mũi tên cho cân đối với viền bo tròn 50px */
+}
+
+.page-input-group input {
+    width: 60px !important;    /* Tăng độ rộng lên 60px để chứa đủ 3-4 chữ số */
+    padding: 0 5px !important; /* Giảm tối đa padding để lấy chỗ cho chữ số */
+    text-align: center;
+    border-radius: 12px !important; /* Giảm độ bo tròn để tránh bị cắt góc chữ số */
+}
+
+/* Ẩn mũi tên lên/xuống mặc định của trình duyệt để tiết kiệm diện tích */
+.page-input-group input::-webkit-outer-spin-button,
+.page-input-group input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Nới rộng khung bao ngoài một chút */
+.page-input-group {
+    width: fit-content !important;
+    min-width: 160px; /* Đảm bảo khung đủ rộng cho cả 2 ô số và icon khóa */
+    padding: 4px 10px !important;
+}
+
+/* Chỉnh icon khóa để không chiếm diện tích */
+.btn-lock-icon {
+    padding: 0 !important;
+    width: 30px !important;
+    height: 30px !important;
 }
