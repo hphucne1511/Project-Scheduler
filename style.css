@@ -49,9 +49,22 @@ select.btn-toggle-theme {
 }
 select.btn-toggle-theme:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-color: #9ca3af; }
 
-/* Đổi nút thêm ngày sang Xanh Dương */
-.btn-add-day { background-color: #2563EB; color: white; padding: 10px 18px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); }
-.btn-add-day:hover { background-color: #1D4ED8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3); }
+
+.btn-add-day, .btn-add-book { 
+    background-color: #2563EB; 
+    color: white; 
+    padding: 12px 24px; /* Form viên thuốc dài */
+    border-radius: 50px; /* Bo tròn hoàn toàn */
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    font-weight: 700;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); 
+    transition: all 0.3s ease;
+}
+.btn-add-book { background-color: #10B981; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
+
+.btn-add-day:hover { background-color: #1D4ED8; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(37, 99, 235, 0.4); }
+.btn-add-book:hover { background-color: #059669; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4); }
 
 /* Đổi nút thêm task sang Xanh Dương nhạt */
 .btn-add-task { background-color: #f3f4f6; color: #2563EB; padding: 8px 16px; border: 1px solid #e5e7eb; }
@@ -127,24 +140,91 @@ input[type="text"]:focus, input[type="number"]:focus {
     background: #ffffff; border: 1px solid #2563EB; outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-/* --- KHỐI NHẬP SỐ TRANG & NÚT KHÓA --- */
-.page-input-group {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    background: #f9fafb; padding: 6px 12px; border-radius: 12px; border: 1px solid #e5e7eb; width: fit-content; margin: 0 auto;
-}
-.page-input-group input { width: 60px; text-align: center; font-weight: 600; padding: 4px; background: transparent; }
-.page-input-group span { color: #9ca3af; font-weight: bold; }
+/* ==================================================
+   KHỐI NHẬP SỐ TRANG (SẠCH - KHÔNG DÙNG !IMPORTANT)
+   ================================================== */
 
-.btn-lock-icon {
-    border: none; background: transparent; width: 32px; height: 32px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center; cursor: pointer; color: #9ca3af; transition: 0.2s;
+/* 1. KHỐI BAO NGOÀI: Dùng margin: auto để tự động ép ra giữa cột */
+#main-wrapper .page-input-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: max-content;
+    margin: 0 auto;
+    padding: 6px 14px;
 }
-.btn-lock-icon:hover { background: #e5e7eb; }
-.btn-lock-icon.locked { color: #d97706; background: #fef3c7; }
 
-/* --- NÚT THÊM SÁCH & THAO TÁC SÁCH --- */
-.btn-add-book { background-color: #10B981; color: white; padding: 10px 18px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
-.btn-add-book:hover { background-color: #059669; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3); }
+/* 2. RESET TẤT CẢ PHẦN TỬ CON: Xóa rác margin mặc định */
+#main-wrapper .page-input-group > * {
+    margin: 0;
+    box-sizing: border-box;
+    height: 34px; /* Chốt cứng chiều cao cho TẤT CẢ để ép thẳng hàng tâm */
+}
+
+/* 3. Ô NHẬP SỐ */
+#main-wrapper .page-input-group input[type="number"] {
+    width: 80px; 
+    min-width: 80px; 
+    padding: 0 8px;
+    text-align: center;
+    border-radius: 50px;
+    font-weight: 600;
+    flex-shrink: 0; 
+    line-height: 34px;
+}
+
+/* Ẩn mũi tên Webkit/Firefox */
+#main-wrapper .page-input-group input[type="number"]::-webkit-inner-spin-button, 
+#main-wrapper .page-input-group input[type="number"]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+}
+#main-wrapper .page-input-group input[type="number"] { 
+    -moz-appearance: textfield; 
+}
+
+/* 4. DẤU "/" */
+#main-wrapper .page-input-group span {
+    font-weight: bold;
+    opacity: 0.5;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 5. NÚT KHÓA: Dùng selector dài hơn một chút (.page-input-group .btn-lock-icon) để tăng độ ưu tiên đè lên theme cũ */
+#main-wrapper .page-input-group .btn-lock-icon {
+    width: 34px;
+    min-width: 34px;
+    padding: 0;
+    border-radius: 8px;
+    flex-shrink: 0;
+    cursor: pointer;
+    position: relative;
+    
+    color: transparent; /* Giấu emoji cũ */
+    font-size: 0; 
+    
+    background-color: transparent;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%239CA3AF" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>');
+    background-size: 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: 1px solid transparent;
+    transition: all 0.2s ease;
+}
+
+#main-wrapper .page-input-group .btn-lock-icon:hover {
+    background-color: rgba(156, 163, 175, 0.2);
+}
+
+#main-wrapper .page-input-group .btn-lock-icon.locked {
+    background-image: url('data:image/svg+xml;utf8,<svg fill="none" stroke="%23F59E0B" stroke-width="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>');
+    background-color: rgba(245, 158, 11, 0.15);
+    border-color: rgba(245, 158, 11, 0.3);
+}
 
 .btn-action-delete { background: none; border: none; font-size: 18px; cursor: pointer; opacity: 0.4; padding: 8px; border-radius: 8px; }
 .btn-action-delete:hover { opacity: 1; background: #fee2e2; }
@@ -230,87 +310,79 @@ body::before {
    Áp dụng cho mọi theme để xóa bỏ sự vuông vức
    ========================================= */
 
-/* 1. Thẻ Container: Bo góc cực lớn như những viên đá cuội */
-.day-container, .book-container {
-    border-radius: 35px !important;
-    padding: 30px 40px !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
-    /* Đổ bóng 2 lớp: 1 lớp sâu và 1 lớp gắt để tạo khối thực */
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05) !important;
+/* 1. Thẻ Container: Dùng #main-wrapper để tăng độ ưu tiên thay vì !important */
+#main-wrapper .day-container, #main-wrapper .book-container {
+    border-radius: 35px;
+    padding: 30px 40px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
 }
+/* Khôi phục lại màu viền trên (do lệnh border ở trên sẽ vô tình chép đè) */
+#main-wrapper .day-container { border-top: 4px solid #2563EB; }
+#main-wrapper .book-container { border-top: 4px solid #10B981; }
 
 /* 2. Thành phần tương tác dạng "Viên thuốc" (Pill-shaped) */
-input[type="text"], 
-input[type="number"], 
-.date-picker, 
-button, 
-select.btn-toggle-theme,
-.page-input-group {
-    border-radius: 50px !important; /* Bo tròn hoàn toàn hai đầu */
-    padding-left: 22px !important;
-    padding-right: 22px !important;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+#main-wrapper input[type="text"], 
+#main-wrapper input[type="number"], 
+#main-wrapper .date-picker, 
+#main-wrapper button, 
+#main-wrapper select.btn-toggle-theme,
+#main-wrapper .page-input-group {
+    border-radius: 50px;
+    padding-left: 22px;
+    padding-right: 22px;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* 3. Làm mềm Checkbox & Nút xóa */
-input[type="checkbox"] {
-    border-radius: 10px !important; /* Bo góc checkbox */
+#main-wrapper input[type="checkbox"] {
+    border-radius: 10px;
 }
-.btn-action-delete {
-    border-radius: 50% !important; /* Nút xóa hình tròn */
+#main-wrapper .btn-action-delete {
+    border-radius: 50%;
     width: 40px; height: 40px;
     display: inline-flex; align-items: center; justify-content: center;
 }
 
 /* 4. Cấu trúc Bảng "Dòng chảy" (Floating Rows) */
-table {
-    border-spacing: 0 10px !important; /* Tạo khoảng cách giữa các hàng */
-    border-collapse: separate !important;
+#main-wrapper table {
+    border-spacing: 0 10px;
+    border-collapse: separate;
 }
-tr td {
-    border-bottom: none !important; /* Bỏ gạch chân hàng truyền thống */
-    background: rgba(0, 0, 0, 0.03); /* Tạo nền nhẹ cho từng hàng */
+#main-wrapper tr td {
+    border-bottom: none;
+    background: rgba(0, 0, 0, 0.03);
 }
-/* Bo tròn hai đầu cho từng hàng trong bảng */
-tr td:first-child { border-top-left-radius: 20px; border-bottom-left-radius: 20px; }
-tr td:last-child { border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
+#main-wrapper tr td:first-child { border-top-left-radius: 20px; border-bottom-left-radius: 20px; }
+#main-wrapper tr td:last-child { border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
 
-/* 5. Hiệu ứng Micro-interaction (Co giãn khi tương tác) */
-input[type="text"]:focus, input[type="number"]:focus {
-    transform: scale(1.02); /* Phình nhẹ khi nhập liệu */
+/* 5. Hiệu ứng Micro-interaction */
+#main-wrapper input[type="text"]:focus, #main-wrapper input[type="number"]:focus {
+    transform: scale(1.02);
 }
-button:active {
-    transform: scale(0.92); /* Lún xuống khi nhấn */
+#main-wrapper button:active {
+    transform: scale(0.92);
 }
-select.btn-toggle-theme {
-    padding-right: 42px !important; /* Tăng mạnh khoảng trống bên phải để chứa mũi tên */
-    background-position: right 16px center !important; /* Căn chỉnh lại mũi tên cho cân đối với viền bo tròn 50px */
+#main-wrapper select.btn-toggle-theme {
+    padding-right: 42px;
+    background-position: right 16px center;
 }
 
-.page-input-group input {
-    width: 60px !important;    /* Tăng độ rộng lên 60px để chứa đủ 3-4 chữ số */
-    padding: 0 5px !important; /* Giảm tối đa padding để lấy chỗ cho chữ số */
+#main-wrapper .page-input-group input {
+    width: 60px;
+    padding: 0 5px;
     text-align: center;
-    border-radius: 12px !important; /* Giảm độ bo tròn để tránh bị cắt góc chữ số */
+    border-radius: 12px;
 }
 
-/* Ẩn mũi tên lên/xuống mặc định của trình duyệt để tiết kiệm diện tích */
-.page-input-group input::-webkit-outer-spin-button,
-.page-input-group input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+#main-wrapper .page-input-group {
+    width: fit-content;
+    min-width: 160px;
+    padding: 4px 10px;
 }
 
-/* Nới rộng khung bao ngoài một chút */
-.page-input-group {
-    width: fit-content !important;
-    min-width: 160px; /* Đảm bảo khung đủ rộng cho cả 2 ô số và icon khóa */
-    padding: 4px 10px !important;
-}
-
-/* Chỉnh icon khóa để không chiếm diện tích */
-.btn-lock-icon {
-    padding: 0 !important;
-    width: 30px !important;
-    height: 30px !important;
+#main-wrapper .btn-lock-icon {
+    padding: 0;
+    width: 30px;
+    height: 30px;
 }
